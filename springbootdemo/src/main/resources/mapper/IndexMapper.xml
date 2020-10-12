@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sienline.wmsserver.dao.AcceptHelperMapper">
+    <parameterMap id="param" type="java.util.HashMap" >
+        <parameter property="shipmentListId" jdbcType="NUMERIC"  javaType="java.math.BigDecimal"  mode="IN"/>
+        <parameter property="shipmentNo" jdbcType="VARCHAR"  javaType="java.lang.String"  mode="IN"/>
+        <parameter property="secMatId" jdbcType="NUMERIC"  javaType="java.math.BigDecimal"  mode="IN"/>
+        <parameter property="matNum" jdbcType="NUMERIC"  javaType="java.math.BigDecimal"  mode="IN"/>
+        <parameter property="userId" jdbcType="VARCHAR"  javaType="java.lang.String"  mode="IN"/>
+        <parameter property="errNo" jdbcType="INTEGER"  javaType="java.lang.Integer"  mode="OUT"/>
+        <parameter property="errMsg" jdbcType="VARCHAR"  javaType="java.lang.String"  mode="OUT"/>
+    </parameterMap>
+    <!--  获取需打印的物料信息 -->
+    <select id="signAccept" parameterMap="param" statementType="CALLABLE"
+    >
+        <!-- 固定写法 {call schema.procedure(paras)} -->
+        <![CDATA[
+        {call dbo.SP_Storage_CP_DEDUCTED(
+        #{shipmentNo,jdbcType=NUMERIC},
+        #{shipmentListId,jdbcType=VARCHAR},
+        #{matNum,jdbcType=NUMERIC},
+        #{userId,jdbcType=VARCHAR},
+        #{errNo,mode=OUT,jdbcType=INTEGER},
+        #{errMsg,mode=OUT,jdbcType=VARCHAR}
+        )}
+         ]]>
+    </select>
+</mapper>
